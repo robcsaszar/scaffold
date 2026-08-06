@@ -1,0 +1,15 @@
+{
+  "name": "scaffold",
+  "owner": {
+    "name": "Rob Csaszar",
+    "url": "https://nhg.design"
+  },
+  "plugins": [
+    {
+      "name": "robcsaszar-scaffold",
+      "source": "./",
+      "description": "Skills for creating and reviewing AGENTS.md, CONTEXT.md, and DESIGN.md files that give AI agents persistent, structured context about a codebase.",
+      "version": "0.5.0"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "robcsaszar-scaffold",
+  "version": "0.5.0",
+  "description": "Skills for creating and reviewing AGENTS.md, CONTEXT.md, and DESIGN.md files that give AI agents persistent, structured context about a codebase.",
+  "author": {
+    "name": "Rob Csaszar",
+    "url": "https://nhg.design"
+  },
+  "repository": "https://github.com/robcsaszar/scaffold",
+  "license": "MIT",
+  "keywords": [
+    "agents-md",
+    "context-md",
+    "design-md",
+    "documentation",
+    "ai-context",
+    "claude-code"
+  ]
+}
