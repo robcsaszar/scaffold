@@ -64,6 +64,7 @@ Add sections ONLY if they pass the undiscoverable test, in this order:
 
 **MANDATORY — READ [`references/knowledge-base.md`](references/knowledge-base.md)** for research-backed patterns and evidence.
 **MANDATORY — READ [`references/template.md`](references/template.md)** for starter structure.
+**Load [`references/example.md`](references/example.md)** only when the user asks what a finished AGENTS.md looks like, or when the repo is a JS/TS monorepo (it is a turborepo + pnpm worked example) — skip it otherwise.
 **Do NOT load** `references/knowledge-base.md` during Review mode if the target AGENTS.md is < 20 lines — the body checklist and anti-pattern list suffice for trivially short files.
 
 ---
