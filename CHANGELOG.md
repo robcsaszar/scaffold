@@ -6,7 +6,7 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ### Fixed
 
-- `ai-design-dot-md`: description promised support for "updating an existing DESIGN.md", but no update mode exists — only a one-line diff instruction in Phase 5. The claim is removed and replaced with a negative trigger pointing at `ai-forge-update`.
+- `ai-design-dot-md`: description promised support for "updating an existing DESIGN.md", but no update mode exists — only a one-line diff instruction in Phase 5. The claim is removed and replaced with a negative trigger stating that the skill creates and extracts but does not update.
 
 ### Changed
 

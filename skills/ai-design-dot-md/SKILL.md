@@ -1,6 +1,6 @@
 ---
 name: ai-design-dot-md
-description: "Create or extract a DESIGN.md file — a spec-compliant document combining YAML design tokens (name, colors, typography, spacing, rounded, components) with 8 ordered markdown sections (Overview through Do's & Don'ts) as persistent design-system context for AI agents. Use when adding design context to a project, generating DESIGN.md from frontend source code, or defining a brand's token system. Don't use for revising an existing DESIGN.md — that's ai-forge-update. Triggers — design.md, DESIGN.md, design tokens, design system, extract design, create design file, brand tokens, AI design context."
+description: "Create or extract a DESIGN.md file — a spec-compliant document combining YAML design tokens (name, colors, typography, spacing, rounded, components) with 8 ordered markdown sections (Overview through Do's & Don'ts) as persistent design-system context for AI agents. Use when adding design context to a project, generating DESIGN.md from frontend source code, or defining a brand's token system. Don't use for revising an existing DESIGN.md — this skill creates and extracts, it does not update. Triggers — design.md, DESIGN.md, design tokens, design system, extract design, create design file, brand tokens, AI design context."
 ---
 
 # Create / Extract DESIGN.md
