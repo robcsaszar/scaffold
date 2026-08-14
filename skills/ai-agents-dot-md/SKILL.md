@@ -1,6 +1,6 @@
 ---
 name: ai-agents-dot-md
-description: "Create or review AGENTS.md files for repositories. Use when user wants to generate agent documentation, scaffold AGENTS.md, review an existing AGENTS.md for quality, or make their repo agent-friendly. Triggers are AGENTS.md, agent docs, review agents file, create agents file, coding agent context, repository setup for AI."
+description: "Creates, reviews, and improves AGENTS.md files for repositories. Review mode scores the file, then offers to apply the fixes to it. Use when user wants to generate agent documentation, scaffold AGENTS.md, review or improve an existing AGENTS.md, or make their repo agent-friendly. Don't use for documenting codebase architecture and domain model — that's ai-context-dot-md. Triggers are AGENTS.md, agent docs, review agents file, create agents file, coding agent context, repository setup for AI."
 ---
 
 # AI Create / Review AGENTS.md
@@ -122,8 +122,19 @@ Flag any of these (empirically proven to hurt agent performance):
 3. [LOW] ...
 
 ### Rewrite Suggestions
-- ...
+1. ...
+2. ...
 ```
+
+### Apply
+
+The review is not the deliverable — a better AGENTS.md is. After presenting it, offer:
+
+`Apply? (a)ll / (s)elect by number / (n)one`
+
+On `(a)` or `(s)`: edit the file in place, one numbered item at a time, then re-run the scoring dimensions and report the new score alongside the old one. Every line the review did not flag survives verbatim — a review is not a rewrite mandate, and silently "improving" unflagged prose is how a review pass destroys the author's voice and intent.
+
+Skip the offer when the user supplied the content inline rather than a path, or the file is not writable. Say so rather than reporting improvements as applied.
 
 **MANDATORY — READ [`references/knowledge-base.md`](references/knowledge-base.md)** for the research evidence behind each criterion.
 

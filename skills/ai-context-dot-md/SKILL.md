@@ -1,6 +1,6 @@
 ---
 name: ai-context-dot-md
-description: "Create or review CONTEXT.md files — hierarchical, LLM-optimized repository documentation describing what a codebase IS (architecture, domain model, conventions). Dual mode: creates new CONTEXT.md at user-specified path, or reviews existing file for completeness and anti-patterns. Use when user wants to add CONTEXT.md, document codebase architecture for agents, define domain language, or says 'create context', 'review context', 'document this codebase'. Triggers are CONTEXT.md, context file, document architecture, domain model, codebase context."
+description: "Create or review CONTEXT.md files — hierarchical, LLM-optimized repository documentation describing what a codebase IS (architecture, domain model, conventions). Dual mode — creates a new CONTEXT.md at a user-specified path, or reviews an existing file for completeness and anti-patterns and then offers to apply the fixes to it. Use when user wants to add CONTEXT.md, document codebase architecture for agents, define domain language, or says 'create context', 'review context', 'document this codebase'. Don't use for agent behavior rules, commands, or conventions — that's ai-agents-dot-md. Triggers are CONTEXT.md, context file, document architecture, domain model, codebase context."
 ---
 
 # AI Context Dot MD
@@ -132,6 +132,18 @@ Flag if present:
 ```
 
 Grade scale: A (22-25), B (18-21), C (14-17), D (10-13), F (<10)
+
+### Apply
+
+The review is not the deliverable — a better CONTEXT.md is. After presenting it, offer:
+
+`Apply? (a)ll / (s)elect by number / (n)one`
+
+On `(a)` or `(s)`: edit the file in place, one numbered improvement at a time, then re-score and report the new grade alongside the old one. Every line the review did not flag survives verbatim — a review is not a rewrite mandate.
+
+Stale references are the one case that needs care: when an improvement is "this path no longer exists", verify what replaced it before writing the correction. Deleting the stale line is not the fix if the thing it described still exists somewhere else — that trades a wrong fact for a missing one.
+
+Skip the offer when the user supplied the content inline rather than a path, or the file is not writable. Say so rather than reporting improvements as applied.
 
 ---
 
