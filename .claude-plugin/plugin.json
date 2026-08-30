@@ -1,6 +1,6 @@
 {
   "name": "robcsaszar-scaffold",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Skills for creating and reviewing AGENTS.md, CONTEXT.md, and DESIGN.md files that give AI agents persistent, structured context about a codebase.",
   "author": {
     "name": "Rob Csaszar",
