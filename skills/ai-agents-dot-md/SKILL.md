@@ -37,6 +37,7 @@ Before writing, determine for THIS project:
 - **What's dangerous?** What commands or patterns cause silent failures?
 - **What's ambiguous?** Where are there two valid approaches and the agent would guess wrong?
 - **What's non-standard?** What conventions differ from framework defaults?
+- **What's branch-only?** Which instructions apply on every task, and which only on some (releases, migrations, one package)? AGENTS.md is loaded at the start of every session, so each line costs tokens and attention on every task whether or not it applies. Inline what every task needs; push what only some tasks reach into a referenced file behind a pointer. Release steps sitting in a root file are paid for by every bug fix.
 
 If all answers are "nothing" — the project may not need an AGENTS.md. Say so.
 
@@ -49,9 +50,15 @@ Add sections ONLY if they pass the undiscoverable test, in this order:
 1. **Mission** (2–4 sentences) — project purpose + core constraint the agent can't infer
 2. **Toolchain registry** — commands as table, NOT what tools enforce
 3. **Judgment boundaries** — NEVER / ASK / ALWAYS tiers
-4. **Closure definition** — "Done" = specific exit codes
+4. **Closure definition** — "Done" = specific exit codes, plus how much the check demands (`every changed model has a migration and a test`, not `update tests`)
 5. **Escalation rules** — what to do when blocked
 6. **Task-organized sections** — "When writing… / When reviewing… / When releasing…"
+
+**Pointers.** When a line names another file, write the trigger first and the target second: `Before editing anything under db/, read docs/migrations.md` — not `See docs/migrations.md for database notes`. The wording of the pointer, not the quality of the target, decides whether the agent ever opens it; a must-read doc behind a weak pointer is a reliability bug. Sharpen the wording before resorting to inlining the content. One trigger per situation — two phrasings of the same case are one pointer written twice.
+
+**Leading words.** Pick one short, familiar word for each recurring behaviour (`gate`, `blocked`, `green`, `dry run`) and repeat that exact token wherever the behaviour appears — never re-explain it as a sentence. A repeated word accumulates a shared meaning across the file and anchors more reliably than a fresh phrasing each time. Prefer words the agent already knows over coined terms, which cost definition lines. If a word is too weak to move behaviour (`thorough`), the fix is a stronger word (`exhaustive`), not more sentences.
+
+**Closure demand.** "All exit 0" says how to check; the scope says how hard to look. `Every changed model has a migration and a test` forces exhaustive work where `update tests` lets the agent stop after one. Put the scope in the criterion, as `every X`, rather than as a separate reminder.
 
 ### Step 4: Validate
 
@@ -61,6 +68,9 @@ Add sections ONLY if they pass the undiscoverable test, in this order:
 - Every "don't" is paired with a "do"
 - No linter rules restated (toolchain first)
 - No prose paragraphs without commands
+- Every sentence changes behaviour versus what the agent does by default — if it doesn't, delete the whole sentence
+- Every pointer to another file carries the condition for opening it
+- Each concept's definition, rules, and caveats sit under one heading, not scattered across the file
 
 **MANDATORY — READ [`references/knowledge-base.md`](references/knowledge-base.md)** for research-backed patterns and evidence.
 **MANDATORY — READ [`references/template.md`](references/template.md)** for starter structure.
@@ -77,11 +87,11 @@ Evaluate the provided AGENTS.md against research-backed quality criteria.
 
 | Dimension | Weight | What to check |
 |-----------|--------|---------------|
-| Signal density | 25% | % of lines that are undiscoverable expert knowledge vs. generic/redundant |
+| Signal density | 25% | % of lines that are undiscoverable expert knowledge vs. generic/redundant/no-op |
 | Command-first | 20% | Every instruction has a verifiable command or exit code |
-| Closure definition | 15% | Explicit "done" criteria with specific checks |
+| Closure definition | 15% | Explicit "done" criteria with specific checks and a stated demand |
 | Boundary system | 15% | NEVER/ASK/ALWAYS tiers present and specific |
-| Length discipline | 10% | ≤150 total, ≤50 per section, no bloat |
+| Length discipline | 10% | ≤150 total, ≤50 per section, no bloat, no sediment |
 | Anti-pattern absence | 15% | Free of proven-to-fail patterns |
 
 ### Scoring Guidance
@@ -104,6 +114,11 @@ Flag any of these (empirically proven to hurt agent performance):
 - [ ] LLM-generated boilerplate from `/init` commands
 - [ ] Restating what the toolchain enforces
 - [ ] Pink elephant violations (long "do not" lists keeping banned concepts active)
+- [ ] No-op instructions the agent already follows by default ("write clean code", "be thorough")
+- [ ] Bare pointers — a file named without the condition for opening it
+- [ ] Scattered concepts — one rule's definition, exceptions, and caveats under different headings
+- [ ] Sediment — lines about friction that has since been fixed, tools no longer used, layouts that moved
+- [ ] Branch-only detail inlined — release, migration, or single-package steps loaded on every session
 
 ### Output Format
 
@@ -148,3 +163,5 @@ Skip the offer when the user supplied the content inline rather than a path, or 
 - **NEVER exceed 150 lines** — beyond this threshold, gains reverse and the file actively hurts quality. **INSTEAD:** extract detail into referenced files or delete.
 - **NEVER use LLM-generated content as final** — `/init` output is an inventory of what the agent already knows; it reduces performance and inflates cost. **INSTEAD:** treat as draft inventory, then strip everything the toolchain already enforces.
 - **NEVER write prose paragraphs** — agents skip them; use commands, tables, and bullets with verifiable outcomes. **INSTEAD:** convert to command + exit code + one-line description.
+- **NEVER name a reference file without its trigger** — `See docs/deploy.md` is a line the agent reads and never acts on. **INSTEAD:** lead with the condition: `Before any release step, read docs/deploy.md`.
+- **NEVER keep a sentence that only restates the default** — it spends attention to change nothing. **INSTEAD:** delete the sentence, or replace the weak word with one strong enough to move behaviour (`exhaustive`, not `thorough`).

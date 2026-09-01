@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows [SemVer](https://semver.org/).
 
+## [0.7.0] - 2026-09-01
+
+### Added
+
+- `ai-agents-dot-md`: Create mode now asks what is branch-only (release, migration, single-package steps) and pushes it behind a pointer instead of inlining it in the always-loaded root file. Step 3 states how to word a pointer — trigger first, target second, one trigger per situation — how to pick and repeat a leading word for each recurring behaviour, and that closure definitions state demand (`every changed model has a migration and a test`) alongside the exit code.
+- `ai-agents-dot-md`: Validate step and Review-mode anti-pattern checklist gain five checks: no-op sentences the agent obeys by default, bare pointers with no trigger, scattered concepts, sediment (lines about fixed friction), and branch-only detail inlined at root. Two matching NEVER entries with paired INSTEADs.
+- `ai-agents-dot-md/references/knowledge-base.md`: six new sections — The Two Loads, Information Hierarchy (ladder, branch test, co-location, sprawl), Context Pointers (with weak/strong table), Completion Criteria (clarity and demand, premature completion), Leading Words, Pruning (single source of truth, environment-as-cache, relevance and sediment, the no-op test). Pointer and no-op rows added to the ignored/works tables, three items to the Auditing Checklist, and a pointer acid test.
+
+### Changed
+
+- `ai-agents-dot-md`: Pink Elephant principle now says when a prohibition is still warranted and to pair it with the positive target.
+
 ## [0.6.0] - 2026-08-14
 
 ### Added
@@ -19,4 +31,6 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 - Initial release: ai-agents-dot-md, ai-context-dot-md, and ai-design-dot-md skills.
 
+[0.7.0]: https://github.com/robcsaszar/scaffold/releases/tag/v0.7.0
+[0.6.0]: https://github.com/robcsaszar/scaffold/releases/tag/v0.6.0
 [0.5.0]: https://github.com/robcsaszar/scaffold/releases/tag/v0.5.0
