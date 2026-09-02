@@ -41,7 +41,7 @@ Before investigating, ask yourself:
 
 - What would confuse a new agent about this scope?
 - What terms mean something different HERE than in general usage?
-- What implicit relationships aren't visible from file names alone?
+- What can't the agent find by looking? The code already answers what `ls`, `package.json`, and config files show — write only what looking cannot find: the unwritten convention, the reason behind a boundary, the gotcha no config confesses.
 
 Investigate the target scope:
 
@@ -58,12 +58,12 @@ Investigate the target scope:
 Write sections in priority order:
 
 1. **Overview** — one paragraph, what this scope IS
-2. **Language** — domain terms with _Avoid_ alternatives (highest ROI section)
+2. **Language** — one canonical term per concept, repeated verbatim across CONTEXT.md, code, and AGENTS.md; the _Avoid_ list retires the synonyms (highest ROI section)
 3. **Architecture** — boundaries and data flow
 4. **Directory Structure** — purpose map (table format)
 5. **Key Patterns** — how things work HERE (not general advice)
 6. **Known Gaps** — things that will confuse without warning
-7. **Children** — links to nested CONTEXT.md (if hierarchical)
+7. **Children** — links to nested CONTEXT.md, situation first then path: `Before touching queue code, read packages/jobs/CONTEXT.md` (if hierarchical)
 
 Skip sections that add no value for the specific scope. A 3-section file is fine if those 3 sections are high-signal.
 
@@ -77,6 +77,8 @@ Before presenting to user, verify:
 - [ ] No agent instructions (those belong in AGENTS.md)
 - [ ] No setup/install steps (those belong in README)
 - [ ] Relationships in Language section match actual code relationships
+- [ ] Every child link states when to open it (situation first, path second)
+- [ ] No line restates what one `ls`, one config read, or one `--help` already answers
 
 ---
 
@@ -84,7 +86,7 @@ Before presenting to user, verify:
 
 ### Verification Strategy
 
-To verify Freshness and accuracy, load `codebase-map` (or `codebase-investigation` for deeper tracing). Confirm file paths, symbol names, and architectural claims mentioned in the CONTEXT.md still exist and are current.
+To verify Freshness and accuracy, check every file path, symbol name, and architectural claim the CONTEXT.md makes against the working tree (`ls` the paths, grep the symbols, read the boundary files it names). A codebase-navigation skill, if one is installed, can speed this up; it is not required.
 
 ### Scoring Dimensions
 
@@ -109,6 +111,9 @@ Flag if present:
 - [ ] Flat dump (>200 lines, no hierarchy)
 - [ ] Missing Language section (most common gap)
 - [ ] API documentation (endpoint details that belong in OpenAPI/JSDoc)
+- [ ] Bare child pointer (a path with no trigger for opening it)
+- [ ] Cache lines (a directory table or pattern that restates a cheap lookup without the why)
+- [ ] Scattered term (a term's caveats or relationships living outside Language)
 
 ### Output Format
 
@@ -153,7 +158,7 @@ When a project warrants multiple CONTEXT.md files:
 
 - Root = architecture overview + domain model + child links
 - Children = focused scope (one package, one domain, one layer)
-- Never repeat child content in parent — link with one-line summary
+- Never repeat child content in parent — link with the trigger for opening it (Step 3, item 7), never a bare path
 - Suggest hierarchy only when project has 3+ distinct domains or packages
 
 ---
@@ -188,7 +193,5 @@ When a project warrants multiple CONTEXT.md files:
 
 ## Do NOT Load
 
-- `references/knowledge-base.md` — only needed during Create Mode Step 2
-- `references/template.md` — only needed during Create Mode Step 3
 - `references/example.md` — load ONLY if user asks for an example or you need inspiration for a specific section
 - In Review Mode, load `references/knowledge-base.md` only if you need to verify anti-patterns or compare against best practices — not for every review

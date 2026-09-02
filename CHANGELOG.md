@@ -9,10 +9,14 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - `ai-agents-dot-md`: Create mode now asks what is branch-only (release, migration, single-package steps) and pushes it behind a pointer instead of inlining it in the always-loaded root file. Step 3 states how to word a pointer — trigger first, target second, one trigger per situation — how to pick and repeat a leading word for each recurring behaviour, and that closure definitions state demand (`every changed model has a migration and a test`) alongside the exit code.
 - `ai-agents-dot-md`: Validate step and Review-mode anti-pattern checklist gain five checks: no-op sentences the agent obeys by default, bare pointers with no trigger, scattered concepts, sediment (lines about fixed friction), and branch-only detail inlined at root. Two matching NEVER entries with paired INSTEADs.
 - `ai-agents-dot-md/references/knowledge-base.md`: six new sections — The Two Loads, Information Hierarchy (ladder, branch test, co-location, sprawl), Context Pointers (with weak/strong table), Completion Criteria (clarity and demand, premature completion), Leading Words, Pruning (single source of truth, environment-as-cache, relevance and sediment, the no-op test). Pointer and no-op rows added to the ignored/works tables, three items to the Auditing Checklist, and a pointer acid test.
+- `ai-context-dot-md`: Create mode's analysis questions now include the cache rule (write only what the agent cannot find by looking), Language is framed as one canonical term per concept with the _Avoid_ list retiring synonyms, and child links are written situation first, path second. Validate gains two checks and Review mode's anti-pattern checklist three: bare child pointer, cache lines, scattered term.
+- `ai-context-dot-md/references/knowledge-base.md`: three new sections — Language as Leading Words, The Environment Is a Source of Truth, Child Links Are Pointers (with weak/strong table) — and two anti-pattern rows. The template and example Children entries now show the trigger-first form.
+- `ai-design-dot-md`: every don't in the Do's and Don'ts section names the do that replaces it, and Phase 5 checks for it. Updating an existing DESIGN.md now drops prose for tokens no longer defined in the YAML and reports which lines went.
 
 ### Changed
 
 - `ai-agents-dot-md`: Pink Elephant principle now says when a prohibition is still warranted and to pair it with the positive target.
+- `ai-context-dot-md`: Review mode's freshness check is stated as actions against the working tree instead of naming navigation skills this plugin does not ship. The Do NOT Load section keeps only its two conditional entries; the two that restated the Step 2 and Step 3 triggers are gone.
 
 ## [0.6.0] - 2026-08-14
 

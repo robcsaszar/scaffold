@@ -40,6 +40,6 @@
 
 ## Children
 
-- [`src/CONTEXT.md`](src/CONTEXT.md) — [One-line summary]
-- [`infra/CONTEXT.md`](infra/CONTEXT.md) — [One-line summary]
+- [When/Before doing X], read [`src/CONTEXT.md`](src/CONTEXT.md) — [one-line summary]
+- [When/Before doing Y], read [`infra/CONTEXT.md`](infra/CONTEXT.md) — [one-line summary]
 ```
