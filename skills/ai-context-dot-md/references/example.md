@@ -62,8 +62,8 @@ HTTP requests enter `apps/api`, create a Context, call services in `packages/cor
 
 ## Children
 
-- [`packages/core/CONTEXT.md`](packages/core/CONTEXT.md) — DB client, service layer, domain type definitions
-- [`packages/jobs/CONTEXT.md`](packages/jobs/CONTEXT.md) — Queue names, job payload shapes, enqueue patterns
+- Before touching the DB client or service layer, read [`packages/core/CONTEXT.md`](packages/core/CONTEXT.md) — domain type definitions live there
+- Before enqueueing or consuming a Job, read [`packages/jobs/CONTEXT.md`](packages/jobs/CONTEXT.md) — queue names, payload shapes, enqueue patterns
 ```
 
 ---

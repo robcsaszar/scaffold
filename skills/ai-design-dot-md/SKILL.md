@@ -73,7 +73,7 @@ Write all 8 sections **in this exact order** — no exceptions:
 5. `## Elevation & Depth` — shadow language, tonal layers, z-axis approach.
 6. `## Shapes` — border-radius scale and rounding philosophy.
 7. `## Components` — button variants, inputs, cards, navigation. Cover shape, color, states, transitions.
-8. `## Do's and Don'ts` — ≥3 do's and ≥3 don'ts. Concrete and actionable.
+8. `## Do's and Don'ts` — ≥3 do's and ≥3 don'ts, concrete and actionable. Every don't names the do that replaces it (`Don't invent a new accent for CTAs — use {colors.primary}`), so attention lands on the target, not the banned value.
 
 Write **intent**, not raw values. "Warm amber for primary CTAs to evoke energy" beats "button background: #F59E0B" — the YAML tokens carry exact values; the prose carries *why*.
 
@@ -91,10 +91,11 @@ Before writing, verify:
 - No duplicate `##` section headings
 - All `{token.path}` references resolve within the YAML block
 - Sections appear in prescribed order (Overview → Do's & Don'ts)
+- Every don't in section 8 names its replacement do
 
-When updating an existing file: diff against it and preserve rationale not covered by the extraction — do not discard context that wasn't changed.
+When updating an existing file: diff against it and preserve rationale not covered by the extraction — do not discard context that wasn't changed. Prose that describes a token no longer defined in the YAML is the exception: drop it and tell the user which lines went, so stale rationale does not ride along under the new tokens.
 
-Exit criterion: file written; passes all 4 checks above.
+Exit criterion: file written; passes all 5 checks above.
 
 ---
 

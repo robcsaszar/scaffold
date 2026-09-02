@@ -78,6 +78,34 @@ Add a **Relationships** subsection:
 - A Job references an Order by ID but is processed independently
 ```
 
+## Language as Leading Words
+
+Each Language term is a **leading word**: one short token the agent thinks with, repeated verbatim wherever the concept appears — in CONTEXT.md, in code, in AGENTS.md. Repeated as the same token and never re-explained as a sentence, it accumulates a shared meaning and anchors behaviour in the fewest tokens. The _Avoid_ list is the retirement notice for the synonyms.
+
+Two consequences:
+
+- **Prefer the word the code already uses.** A term coined for the doc recruits no prior knowledge and costs a definition line; a term lifted from the codebase is free.
+- **Keep the term's caveats beside it.** A term's exceptions or relationships living three sections away is a scattered concept: the agent reads the definition without its neighbours. Definition, Avoid list, and Relationships sit under one heading.
+
+## The Environment Is a Source of Truth
+
+`package.json` scripts, config files, the directory layout, `--help` output — the agent can read all of these directly. A CONTEXT.md line that restates them is a **cache**: a copy of a lookup, worth its cost only when the lookup is expensive, and it goes stale the moment the source moves.
+
+Cache what the agent cannot find by looking: the unwritten convention, the reason a boundary sits where it does, the gotcha no config confesses. Leave the one-command lookups to the environment. A Directory Structure row that says only what `ls` shows fails this test; a row that says *why* the directory is separate passes.
+
+## Child Links Are Pointers
+
+A child link is a **pointer**: a line that names out-of-file material and encodes the condition for reaching it. Its wording, not its target, decides whether the agent ever opens the child. A bare path is read and never acted on.
+
+Write the situation first and the path second, and keep only genuinely distinct triggers — two phrasings of one situation are one pointer written twice.
+
+| Weak pointer | Strong pointer |
+|---|---|
+| `packages/jobs/CONTEXT.md — queue internals` | `Before touching queue code, read packages/jobs/CONTEXT.md` |
+| `See apps/api/CONTEXT.md` | `When adding or changing a route, read apps/api/CONTEXT.md` |
+| `More detail in the package READMEs` | (delete — no trigger, no single target) |
+
+
 ## Hierarchical Structure Example
 
 ```text
@@ -110,6 +138,8 @@ Each child describes ONLY its own scope. Parent links to children but doesn't re
 | Duplicating child content | Root repeats what nested CONTEXT.md says | Link to children instead |
 | Mixing concerns | Agent behavior rules inside CONTEXT.md | Move rules to AGENTS.md; keep CONTEXT factual |
 | API documentation | Full endpoint docs, param types | Belongs in OpenAPI/JSDoc — CONTEXT just names the surface |
+| Bare child pointer | Path with no trigger — the agent reads the line and never opens the file | Lead with the situation: `Before touching queue code, read packages/jobs/CONTEXT.md` |
+| Cache of a cheap lookup | Restates what `ls` or a config already shows; goes stale, adds nothing | Keep the why; delete what the environment already answers |
 
 ## When to Create CONTEXT.md
 
