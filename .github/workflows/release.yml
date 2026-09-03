@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to create, e.g. v0.8.0"
+        required: true
+      target:
+        description: "Commit SHA or branch the tag points at"
+        required: true
+        default: main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target }}
+
+      - name: Extract release notes from CHANGELOG.md
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          awk -v h="## [${TAG#v}]" 'index($0, h) == 1 { p = 1; next } /^## \[/ { p = 0 } p' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then echo "No CHANGELOG entry for ${TAG#v}" >&2; exit 1; fi
+          cat notes.md
+
+      - name: Create tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          TARGET: ${{ inputs.target }}
+        run: gh release create "$TAG" --target "$TARGET" --title "$TAG" --notes-file notes.md
