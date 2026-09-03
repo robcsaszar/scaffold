@@ -23,6 +23,8 @@ ASK:
 ALWAYS:
 - When re-syncing a skill from its source, re-run the orakl-leakage grep (`grep -rni "orakl"` across `skills/`) before publishing, and flag any hits rather than silently editing them out.
 - When adding, removing, or renaming a skill: update the table in [`README.md`](README.md) in the same change.
+- Before any release step, read the Releasing section of [`CONTRIBUTING.md`](CONTRIBUTING.md). The tag and the GitHub release come from the Release workflow, never from `git tag` by hand.
+- When bumping the version: the top `## [x.y.z]` heading in `CHANGELOG.md`, `version` in `.claude-plugin/plugin.json`, and `plugins[0].version` in `.claude-plugin/marketplace.json` must all match before merge. The release workflow reads the changelog and fails if the block for the tag is missing.
 
 ## Adding a skill
 
