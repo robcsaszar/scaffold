@@ -1,38 +1,86 @@
 name: Release
 
+# Cuts a release from the commit of the branch this workflow is run on.
+# Run it from the Actions tab (Release -> Run workflow) with the tag to
+# create, e.g. v1.2.3. The tag's version must already be present in
+# .claude-plugin/plugin.json, .claude-plugin/marketplace.json, and
+# CHANGELOG.md. The changelog block for that version becomes the release
+# notes. Nothing is created until every check has passed.
+
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag to create, e.g. v0.8.0"
+        description: "Tag to create, e.g. v1.2.3"
         required: true
-      target:
-        description: "Commit SHA or branch the tag points at"
-        required: true
-        default: main
+        type: string
 
 permissions:
   contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.target }}
 
-      - name: Extract release notes from CHANGELOG.md
+      - name: Validate tag
         env:
           TAG: ${{ inputs.tag }}
         run: |
-          awk -v h="## [${TAG#v}]" 'index($0, h) == 1 { p = 1; next } /^## \[/ { p = 0 } p' CHANGELOG.md > notes.md
-          if [ ! -s notes.md ]; then echo "No CHANGELOG entry for ${TAG#v}" >&2; exit 1; fi
+          set -euo pipefail
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Tag '$TAG' must look like vX.Y.Z"
+            exit 1
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
+            echo "::error::Tag '$TAG' already exists; releases are never re-cut for an existing tag"
+            exit 1
+          fi
+          echo "VERSION=${TAG#v}" >> "$GITHUB_ENV"
+
+      - name: Check version parity
+        run: |
+          set -euo pipefail
+          plugin=$(jq -r '.version // empty' .claude-plugin/plugin.json)
+          marketplace=$(jq -r '.plugins[0].version // empty' .claude-plugin/marketplace.json)
+          ok=1
+          if [ "$plugin" != "$VERSION" ]; then
+            echo "::error file=.claude-plugin/plugin.json::version is '${plugin:-missing}', expected '$VERSION'"
+            ok=0
+          fi
+          if [ "$marketplace" != "$VERSION" ]; then
+            echo "::error file=.claude-plugin/marketplace.json::plugins[0].version is '${marketplace:-missing}', expected '$VERSION'"
+            ok=0
+          fi
+          [ "$ok" = 1 ]
+
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          set -euo pipefail
+          awk -v h="## [$VERSION]" '
+            index($0, h) == 1 { p = 1; next }
+            /^## \[/          { p = 0 }
+            p                 { print }
+          ' CHANGELOG.md | sed -e '/./,$!d' -e :a -e '/^\n*$/{$d;N;ba' -e '}' > notes.md
+          if [ ! -s notes.md ]; then
+            echo "::error file=CHANGELOG.md::No '## [$VERSION]' block with content found"
+            exit 1
+          fi
           cat notes.md
 
       - name: Create tag and release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
-          TARGET: ${{ inputs.target }}
-        run: gh release create "$TAG" --target "$TARGET" --title "$TAG" --notes-file notes.md
+        run: |
+          set -euo pipefail
+          url=$(gh release create "$TAG" \
+            --target "$GITHUB_SHA" \
+            --title "$TAG" \
+            --notes-file notes.md)
+          echo "Released $TAG at $GITHUB_SHA: $url" >> "$GITHUB_STEP_SUMMARY"
